@@ -2,6 +2,7 @@ from aws_cdk import (
     core,
     aws_dynamodb,
     aws_lambda,
+    aws_s3,
     aws_iam
 )
 from constructs import Construct
@@ -25,21 +26,23 @@ class ServerlessApiStack(core.Stack):
             server_side_encryption=True
         )
 
-        # lambda
-        try:
-            with open("serverless_api/functions/function01.py", mode="r") as file:
-                function_body = file.read()
-        except OSError:
-            print('File can not read')
+        #import s3
+        code_bucket = aws_s3.Bucket.from_bucket_attributes(
+            self,
+            "code_bucket",
+            bucket_name="code-bucket-lambda-cdk"
+        )
 
+        # lambda
         lambdaFunction01 = aws_lambda.Function(
             self,
             "lambdaFunction01",
             function_name="lambdaFunction01",
             runtime=aws_lambda.Runtime.PYTHON_3_6,
             handler="index.labmda_handler",
-            code=aws_lambda.InlineCode(
-                function_body
+            code=aws_lambda.S3Code(
+                bucket=code_bucket,
+                key="lambda/index.zip"
             ),
             timeout=core.Duration.seconds(60),
             reserved_concurrent_executions=1
@@ -47,7 +50,11 @@ class ServerlessApiStack(core.Stack):
 
         lambdaFunction01.role.add_managed_policy(
             aws_iam.ManagedPolicy.from_aws_managed_policy_name(
-                "AmazonDynamoDBFullAccess",
+                "AmazonDynamoDBFullAccess"
+            )
+        )
+        lambdaFunction01.role.add_managed_policy(
+            aws_iam.ManagedPolicy.from_aws_managed_policy_name(
                 "CloudWatchFullAccess"
             )
         )

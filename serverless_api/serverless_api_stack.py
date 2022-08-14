@@ -42,7 +42,7 @@ class ServerlessApiStack(core.Stack):
             handler="index.labmda_handler",
             code=aws_lambda.S3Code(
                 bucket=code_bucket,
-                key="lambda/index.zip"
+                key="index.zip"
             ),
             timeout=core.Duration.seconds(60),
             reserved_concurrent_executions=1

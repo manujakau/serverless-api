@@ -43,7 +43,7 @@ def functionBuildResponse(statusCode, body=None):
         }
     }
     if body is not None:
-        response['body'] = json.dump(body, cls=customJsonEncoder)
+        response['body'] = json.dumps(body, cls=customJsonEncoder)
     return response
 
 

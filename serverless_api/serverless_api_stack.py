@@ -25,6 +25,7 @@ class ServerlessApiStack(core.Stack):
             server_side_encryption=True
         )
 
+        # lambda
         lambdaFunction01 = aws_lambda.Function(
             self,
             "lambdaFunction01",

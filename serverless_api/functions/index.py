@@ -71,7 +71,7 @@ def getItems():
                 ExclusiveStartKey=response['LastEvaluvatedKey'])
             result.extend(response['Item'])
         body = {
-            'products': response
+            'products': result
         }
         return functionBuildResponse(200, body)
     except:

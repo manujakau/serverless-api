@@ -1,4 +1,4 @@
-# aws-vpc-ec2
+# aws-serverless-api
 aws-cdk deployment
 
 prerequisite

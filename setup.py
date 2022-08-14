@@ -6,7 +6,7 @@ with open("README.md") as fp:
 
 
 setuptools.setup(
-    name="aws_vpc_ec2",
+    name="serverless_api",
     version="0.0.1",
 
     description="An empty CDK Python app",
@@ -15,8 +15,8 @@ setuptools.setup(
 
     author="manujakau",
 
-    package_dir={"": "aws_vpc_ec2"},
-    packages=setuptools.find_packages(where="aws_vpc_ec2"),
+    package_dir={"": "serverless_api"},
+    packages=setuptools.find_packages(where="serverless_api"),
 
     install_requires=[
         "aws-cdk.core==1.168.0",

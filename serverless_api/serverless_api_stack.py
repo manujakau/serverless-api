@@ -61,28 +61,29 @@ class ServerlessApiStack(core.Stack):
         )
 
         # add API-GW
-        api_gateway_function = aws_apigateway.LambdaRestApi(
+        api_gateway = aws_apigateway.LambdaRestApi(
             self,
             "apigateway01",
-            handler=lambdaFunction01
+            handler=lambdaFunction01,
+            proxy=False
         )
 
-        health = api_gateway_function.root.add_resource('health')
+        health = api_gateway.root.add_resource('health')
         health.add_method('GET')
 
-        item = api_gateway_function.root.add_resource('item')
+        item = api_gateway.root.add_resource('item')
         item.add_method('GET')
         item.add_method('POST')
         item.add_method('PATCH')
         item.add_method('DELETE')
 
-        items = api_gateway_function.root.add_resource('items')
+        items = api_gateway.root.add_resource('items')
         items.add_method('GET')
 
         # output
         apigw_output = core.CfnOutput(
             self,
             "apigwOutput",
-            value=f"{api_gateway_function.url}",
+            value=f"{api_gateway.url}",
             description="web url for apigw"
         )

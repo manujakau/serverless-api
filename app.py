@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-import os
-
-import aws_cdk as cdk
+from aws_cdk import core
 
 from serverless_api.serverless_api_stack import ServerlessApiStack
 
 
-app = cdk.App()
-ServerlessApiStack(app, "ServerlessApiStack")
+app = core.App()
+serverless_stack = ServerlessApiStack(app, "ServerlessApiStack")
 
 app.synth()

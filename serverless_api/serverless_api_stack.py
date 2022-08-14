@@ -4,16 +4,17 @@ from aws_cdk import (
 )
 from constructs import Construct
 
+
 class ServerlessApiStack(core.Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-
-        #dynamodb
+        # dynamodb
         dynamodbLambda = aws_dynamodb.Table(
             self,
             "dynamodbLambda",
+            table_name="dynamodbLambda",
             partition_key=aws_dynamodb.Attribute(
                 name="id",
                 type=aws_dynamodb.AttributeType.STRING

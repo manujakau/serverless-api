@@ -1,6 +1,8 @@
 from aws_cdk import (
     core,
-    aws_dynamodb
+    aws_dynamodb,
+    aws_lambda,
+    aws_iam
 )
 from constructs import Construct
 
@@ -21,4 +23,21 @@ class ServerlessApiStack(core.Stack):
             ),
             removal_policy=core.RemovalPolicy.DESTROY,
             server_side_encryption=True
+        )
+
+        lambdaFunction01 = aws_lambda.Function(
+            self,
+            "lambdaFunction01",
+            function_name="lambdaFunction01",
+            runtime=aws_lambda.Runtime.PYTHON_3_6,
+            handler="index.labmda_handler",
+            timeout=core.Duration.seconds(5),
+            reserved_concurrent_executions=1
+        )
+
+        lambdaFunction01.role.add_managed_policy(
+            aws_iam.ManagedPolicy.from_aws_managed_policy_name(
+                "AmazonDynamoDBFullAccess",
+                "CloudWatchFullAccess"
+            )
         )

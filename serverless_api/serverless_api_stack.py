@@ -3,7 +3,8 @@ from aws_cdk import (
     aws_dynamodb,
     aws_lambda,
     aws_s3,
-    aws_iam
+    aws_iam,
+    aws_apigateway
 )
 from constructs import Construct
 
@@ -57,4 +58,31 @@ class ServerlessApiStack(core.Stack):
             aws_iam.ManagedPolicy.from_aws_managed_policy_name(
                 "CloudWatchFullAccess"
             )
+        )
+
+        #add API-GW
+        api_gateway_function = aws_apigateway.LambdaRestApi(
+            self,
+            "apigateway01",
+            handler=lambdaFunction01
+        )
+
+        health = api_gateway_function.root.add_resource('health')
+        health.add_method('GET')
+
+        item = api_gateway_function.root.add_resource('item')
+        item.add_method('GET')
+        item.add_method('POST')
+        item.add_method('PATCH')
+        item.add_method('DELETE')
+
+        items = api_gateway_function.root.add_resource('items')
+        items.add_method('GET')
+
+        #output
+        apigw_output = core.CfnOutput(
+            self,
+            "apigwOutput",
+            value=f"{api_gateway_function.url}",
+            description="web url for apigw"
         )

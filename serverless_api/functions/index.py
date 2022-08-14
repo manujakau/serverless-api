@@ -1,8 +1,6 @@
-from ast import Return
 import logging
 from decimal import Decimal
 import json
-from urllib import response
 import boto3
 
 ddbTableName = 'dynamodbLambda'

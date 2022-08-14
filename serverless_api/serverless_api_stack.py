@@ -26,13 +26,22 @@ class ServerlessApiStack(core.Stack):
         )
 
         # lambda
+        try:
+            with open("serverless_api/functions/function01.py", mode="r") as file:
+                function_body = file.read()
+        except OSError:
+            print('File can not read')
+
         lambdaFunction01 = aws_lambda.Function(
             self,
             "lambdaFunction01",
             function_name="lambdaFunction01",
             runtime=aws_lambda.Runtime.PYTHON_3_6,
             handler="index.labmda_handler",
-            timeout=core.Duration.seconds(5),
+            code=aws_lambda.InlineCode(
+                function_body
+            ),
+            timeout=core.Duration.seconds(60),
             reserved_concurrent_executions=1
         )
 

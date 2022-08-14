@@ -40,7 +40,7 @@ class ServerlessApiStack(core.Stack):
             "lambdaFunction01",
             function_name="lambdaFunction01",
             runtime=aws_lambda.Runtime.PYTHON_3_9,
-            handler="index.labmda_handler",
+            handler="index.lambda_handler",
             code=aws_lambda.S3Code(
                 bucket=code_bucket,
                 key="index.zip"

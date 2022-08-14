@@ -27,31 +27,6 @@ itemPath = '/item'
 itemsPath = '/items'
 
 
-def lambda_handler(event, context):
-    logger.info(event)
-    httpMethod = event['httpMethod']
-    path = event['path']
-
-    if httpMethod == getMethod and path == healthPath:
-        response = functionBuildResponse(200)
-    elif httpMethod == getMethod and path == itemPath:
-        response = getItem(event['queryStringParameters']['itemId'])
-    elif httpMethod == getMethod and path == itemsPath:
-        response = getItems()
-    elif httpMethod == postMethod and path == itemPath:
-        response = putItem(json.loads(event['body']))
-    elif httpMethod == patchMethod and path == itemPath:
-        payLoad = json.loads(event['body'])
-        response = updateItem(payLoad['itemId'],
-                              payLoad['updateKey'], payLoad['updateValue'])
-    elif httpMethod == deleteMethod and path == itemPath:
-        payLoad = json.loads(event['body'])
-        response = deleteItem(payLoad['itemId'])
-    else:
-        response = functionBuildResponse(404, 'Not Found')
-    return response
-
-
 class customJsonEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Decimal):
@@ -154,3 +129,29 @@ def deleteItem(itemId):
         return functionBuildResponse(200, body)
     except:
         logger.exception('error deleteItem')
+
+
+
+def lambda_handler(event, context):
+    logger.info(event)
+    httpMethod = event['httpMethod']
+    path = event['path']
+
+    if httpMethod == getMethod and path == healthPath:
+        response = functionBuildResponse(200)
+    elif httpMethod == getMethod and path == itemPath:
+        response = getItem(event['queryStringParameters']['itemId'])
+    elif httpMethod == getMethod and path == itemsPath:
+        response = getItems()
+    elif httpMethod == postMethod and path == itemPath:
+        response = putItem(json.loads(event['body']))
+    elif httpMethod == patchMethod and path == itemPath:
+        payLoad = json.loads(event['body'])
+        response = updateItem(payLoad['itemId'],
+                              payLoad['updateKey'], payLoad['updateValue'])
+    elif httpMethod == deleteMethod and path == itemPath:
+        payLoad = json.loads(event['body'])
+        response = deleteItem(payLoad['itemId'])
+    else:
+        response = functionBuildResponse(404, 'Not Found')
+    return response

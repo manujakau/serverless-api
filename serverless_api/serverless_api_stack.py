@@ -60,7 +60,7 @@ class ServerlessApiStack(core.Stack):
             )
         )
 
-        #add API-GW
+        # add API-GW
         api_gateway_function = aws_apigateway.LambdaRestApi(
             self,
             "apigateway01",
@@ -79,7 +79,7 @@ class ServerlessApiStack(core.Stack):
         items = api_gateway_function.root.add_resource('items')
         items.add_method('GET')
 
-        #output
+        # output
         apigw_output = core.CfnOutput(
             self,
             "apigwOutput",

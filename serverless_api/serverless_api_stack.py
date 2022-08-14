@@ -20,7 +20,7 @@ class ServerlessApiStack(core.Stack):
             "dynamodbLambda",
             table_name="dynamodbLambda",
             partition_key=aws_dynamodb.Attribute(
-                name="id",
+                name="itemId",
                 type=aws_dynamodb.AttributeType.STRING
             ),
             removal_policy=core.RemovalPolicy.DESTROY,
